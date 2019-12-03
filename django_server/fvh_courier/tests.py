@@ -65,6 +65,9 @@ class RestAPITests(APITestCase):
         # Given that there are packages available for delivery
         now = timezone.now()
 
+        sender = User.objects.create(username='sender', first_name='Cedrik', last_name='Sender')
+        sender.phone_numbers.create(number='+3587654321')
+
         models.Package.objects.create(
             pickup_at=models.Address.objects.create(
                 street_address='Paradisäppelvägen 123',
@@ -85,7 +88,7 @@ class RestAPITests(APITestCase):
 
             height=20, width=30, depth=20, weight=2,
 
-            sender=User.objects.create(username='sender'),
+            sender=sender,
             recipient='Reginald Receiver',
             recipient_phone='+358401234567',
 
@@ -130,9 +133,9 @@ class RestAPITests(APITestCase):
                 "lon": "80.050000"
             },
             "sender": {
-                "first_name": "",
-                "last_name": "",
-                "phone_numbers": []
+                "first_name": "Cedrik",
+                "last_name": "Sender",
+                "phone_numbers": ["+3587654321"]
             },
             "courier": None,
             "height": 20,
