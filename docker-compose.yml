@@ -31,6 +31,13 @@ services:
         - ./city_logistics_ui:/app/frontend
         - node-modules:/app/city_logistics_ui/node_modules
 
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+
 volumes:
   postgres_data:
   node-modules:

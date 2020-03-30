@@ -31,7 +31,7 @@ SECRET_KEY = '(*z-ann&51^6l361#ymu0y9tbdk=_g*=3cy8)p%vcizdc0%_qv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['citylogistiikka.fvh.io', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['citylogistiikka.fvh.io', '127.0.0.1', 'localhost', 'host.docker.internal']
 
 
 # Application definition
@@ -53,9 +53,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_prometheus'
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -64,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'city_logistics.urls'
@@ -92,7 +95,7 @@ WSGI_APPLICATION = 'city_logistics.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
+        "ENGINE": os.environ.get("SQL_ENGINE", "django_prometheus.db.backends.postgresql"),
         "NAME": os.environ.get("POSTGRES_DB", "citylogistiikka_dev"),
         "USER": os.environ.get("POSTGRES_USER", "citylogistiikka"),
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "citylogistiikka"),
