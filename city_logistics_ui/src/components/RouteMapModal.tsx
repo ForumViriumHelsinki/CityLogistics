@@ -9,6 +9,7 @@ import Geolocator from "util_components/Geolocator";
 import Map from "util_components/Map";
 import {Location, Address} from 'util_components/types';
 import OSMImageNotes from "components/osm_image_notes/OSMImageNotes";
+import GatesolveMap from 'gatesolve-ui/src/components/GatesolveMap';
 
 export type BaseMapProps = {
   origin: Address,
@@ -65,14 +66,22 @@ export default class RouteMapModal extends React.Component<MapProps, State> {
             {showNotes ? 'Hide notes' : 'Show notes'}
           </button>
         </div>
-        <Map extraLayers={this.getMapLayers()}
-             latLng={currentPosition ? [currentPosition.lat, currentPosition.lon] : undefined}
-             onMapInitialized={this.setMap}/>
+        <GatesolveMap destination={destination} origin={origin} viewport={this.getViewport()}/>
       </div>
       {(currentPositionIndex > -1) && !this.props.currentPosition &&
         <Geolocator onLocation={([lon, lat]) => this.setState({currentPosition: {lat, lon}})}/>
       }
     </Modal>;
+  }
+
+  getViewport() {
+    return {
+      latitude: 60.17,
+      longitude: 24.941,
+      zoom: 15,
+      bearing: 0,
+      pitch: 0,
+    };
   }
 
   toggleNotes = () => {

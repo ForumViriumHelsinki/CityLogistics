@@ -30,7 +30,8 @@
     "react-scripts": "3.3.0",
     "reactstrap": "^8.4.0",
     "sass": "^1.23.7",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "gatesolve-ui": "git://github.com/ForumViriumHelsinki/gatesolve-ui.git#b1734fe76221f7e0adc84a92555efdaf484a7491"
   },
   "resolutions": {
     "@turf/difference": "6.0.1"
