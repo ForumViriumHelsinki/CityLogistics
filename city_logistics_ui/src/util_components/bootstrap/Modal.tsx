@@ -23,7 +23,7 @@ export class ModalActions extends React.Component<{actions: Action[]}> {
 }
 
 type ModalProps = {
-  title: string,
+  title?: string,
   onClose: () => any,
   children?: any,
   className: string,
