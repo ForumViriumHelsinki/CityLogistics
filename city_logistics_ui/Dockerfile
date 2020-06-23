@@ -15,12 +15,12 @@ RUN yarn install
 COPY . .
 
 # Build proyect (Only deploy mode)
-RUN yarn build
-RUN yarn global add serve
+#RUN yarn build
+#RUN yarn global add serve
 
 # Start app (Debug mode)
-#CMD ["yarn","start"]
+CMD ["yarn","start"]
 
 # Start app (Deploy mode)
-CMD ["serve", "-s", "build", "-l", "3000"]
+#CMD ["serve", "-s", "build", "-l", "3000"]
 

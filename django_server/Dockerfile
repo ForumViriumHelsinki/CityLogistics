@@ -15,10 +15,10 @@ COPY Pipfile* ./
 RUN pip install pipenv
 
 # Install dependencies (Deploy Mode)
-RUN pipenv --python 3.7 install --system --deploy --ignore-pipfile
+#RUN pipenv --python 3.7 install --system --deploy --ignore-pipfile
 
 # Install dependencies (Debug Mode)
-#RUN pipenv --python 3.7 install --system
+RUN pipenv --python 3.7 install --system
 
 # Install netcat (used in entrypoint)
 RUN wget http://sourceforge.net/projects/netcat/files/netcat/0.7.1/netcat-0.7.1.tar.gz -q &&\
