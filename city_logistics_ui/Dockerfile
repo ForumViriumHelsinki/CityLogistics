@@ -18,8 +18,9 @@ COPY . .
 RUN yarn build
 RUN yarn global add serve
 
+# Start app (Debug mode)
+#CMD ["yarn","start"]
+
 # Start app (Deploy mode)
 CMD ["serve", "-s", "build", "-l", "3000"]
 
-# Start app (Debug mode)
-#CMD ["yarn","start"]
