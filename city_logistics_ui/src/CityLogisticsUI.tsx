@@ -1,6 +1,6 @@
 import React from 'react';
 // @ts-ignore
-import {HashRouter as Router, Route, Switch, useParams, Redirect, useHistory} from "react-router-dom";
+import {HashRouter as Router, Route, Switch, useParams, Redirect} from "react-router-dom";
 
 import sessionRequest, {logout} from "sessionRequest";
 
@@ -11,7 +11,6 @@ import {AppContext, User} from "components/types";
 import ResetPasswordScreen from "components/ResetPasswordScreen";
 import FVHTabsUI from "util_components/FVHTabsUI";
 import OutgoingPackageLists from "components/package_lists/OutgoingPackageLists";
-import OSMImageNotesEditor from "components/osm_image_notes/OSMImageNotesEditor";
 import ReservedPackageLists from "components/package_lists/ReservedPackageLists";
 
 type UIState = {
@@ -37,13 +36,6 @@ class CityLogisticsUI extends React.Component<{}, UIState> {
       ChildComponent: ReservedPackageLists,
       icon: 'directions_bike',
       menuText: 'Packages'
-    },
-    notes: {
-      header: 'Notes',
-      ChildComponent: OSMImageNotesEditor,
-      icon: 'my_location',
-      menuText: 'Notes',
-      fullWidth: true
     }
   };
 
@@ -75,14 +67,7 @@ class CityLogisticsUI extends React.Component<{}, UIState> {
     };
 
     // @ts-ignore
-    const tabs: any[] = [this.tabs.notes];
-    if (user && user.is_courier) tabs.unshift(this.tabs.courierPackages);
-    if (user && user.is_sender) tabs.unshift(this.tabs.senderPackages);
-
-    const TabsUI = () => {
-      const history = useHistory();
-      return <FVHTabsUI user={user} tabs={tabs} onLogout={this.logout} onLogin={() => history.push('/login/')}/>
-    };
+    const tabs: any[] = user && (user.is_courier ? [this.tabs.courierPackages] : [this.tabs.senderPackages]);
 
     return <AppContext.Provider value={{user}}>
       <Router>
@@ -97,7 +82,11 @@ class CityLogisticsUI extends React.Component<{}, UIState> {
             <ResetPassword/>
           </Route>
           <Route exact path=''>
-            <TabsUI/>
+            {dataFetched
+              ? user
+                ? <FVHTabsUI user={user} tabs={tabs} onLogout={this.logout}/>
+                : <Redirect to="/login/" />
+              : <LoadScreen/>}
           </Route>
         </Switch>
       </Router>

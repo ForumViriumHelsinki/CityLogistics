@@ -91,49 +91,6 @@ class CourierCompanyAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(models.OSMImageNote)
-class OSMImageNoteAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'image__', 'lat', 'lon', 'created_at', 'created_by', 'modified_at', 'modified_by',
-                    'reviewed_by', 'visible', 'osm']
-    search_fields = ['comment']
-    readonly_fields = ['image_', 'osm', 'osm_edit']
-    filter_horizontal = ['osm_features']
-    list_filter = ['visible', 'created_by', 'reviewed_by']
-    date_hierarchy = 'created_at'
-
-    def get_queryset(self, request):
-        return super().get_queryset(request).select_related('created_by', 'modified_by', 'reviewed_by')
-
-    def osm_url(self, location):
-        return (f'https://www.openstreetmap.org/note/new?' +
-                f'lat={location.lat}&lon={location.lon}#map=19/{location.lat}/{location.lon}')
-
-    def osm(self, location):
-        return mark_safe(f'<a target="_osm" href="{self.osm_url(location)}">osm</a>')
-
-    def image_(self, image_note):
-        if not image_note.image:
-            return 'No image.'
-        return mark_safe(f'<img src="{settings.MEDIA_URL}{image_note.image}" style="max-width: calc(100vw-260px); max-height: 60vh"/>')
-
-    def image__(self, image_note):
-        if not image_note.image:
-            return 'No image.'
-        return mark_safe(f'<a href="{settings.MEDIA_URL}{image_note.image}" target="_blank">image</a>')
-
-    def osm_edit(self, location):
-        url = f'https://www.openstreetmap.org/edit#map=23/{location.lat}/{location.lon}'
-        return mark_safe(f'<a target="_osm_edit" href="{url}">edit</a>')
-
-
-@admin.register(models.OSMImageNoteComment)
-class OSMImageNoteCommentAdmin(admin.ModelAdmin):
-    list_display = ['comment', 'image_note', 'user', 'created_at']
-    search_fields = ['comment']
-    list_filter = ['user']
-    date_hierarchy = 'created_at'
-
-
 class IgnoredHolviProductInline(admin.TabularInline):
     model = models.IgnoredHolviProduct
     extra = 0

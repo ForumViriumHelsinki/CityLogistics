@@ -8,7 +8,6 @@ import GlyphIcon from "util_components/GlyphIcon";
 import Geolocator from "util_components/Geolocator";
 import Map from "util_components/Map";
 import {Location, Address} from 'util_components/types';
-import OSMImageNotes from "components/osm_image_notes/OSMImageNotes";
 
 export type BaseMapProps = {
   origin: Address,
@@ -23,14 +22,12 @@ export type MapProps = BaseMapProps & {
 
 type State = {
   currentPosition: null | Location,
-  showNotes: boolean,
   imageNotesLayer?: any
 };
 
 export default class RouteMapModal extends React.Component<MapProps, State> {
   state: State = {
-    currentPosition: null,
-    showNotes: false
+    currentPosition: null
   };
 
   private leafletMap: any = null;
@@ -51,20 +48,10 @@ export default class RouteMapModal extends React.Component<MapProps, State> {
 
   render() {
     const {origin, destination, onClose, currentPositionIndex=0} = this.props;
-    const {showNotes} = this.state;
     const currentPosition = this.getCurrentPosition();
 
     return <Modal title={`${origin.street_address} to ${destination.street_address}`} onClose={onClose}>
-      {showNotes &&
-        <OSMImageNotes onMapLayerLoaded={(imageNotesLayer: any) => this.setState({imageNotesLayer})} />
-      }
       <div style={{height: '70vh', position: 'relative'}}>
-        <div className="position-absolute map-tools p-3">
-          <button className={`btn btn-sm btn-compact ${showNotes ? 'btn-primary' : 'btn-outline-primary bg-white'}`}
-                  onClick={this.toggleNotes}>
-            {showNotes ? 'Hide notes' : 'Show notes'}
-          </button>
-        </div>
         <Map extraLayers={this.getMapLayers()}
              latLng={currentPosition ? [currentPosition.lat, currentPosition.lon] : undefined}
              onMapInitialized={this.setMap}/>
@@ -74,12 +61,6 @@ export default class RouteMapModal extends React.Component<MapProps, State> {
       }
     </Modal>;
   }
-
-  toggleNotes = () => {
-    const {showNotes, imageNotesLayer} = this.state;
-    this.setState({showNotes: !showNotes, imageNotesLayer: undefined});
-    if (imageNotesLayer) imageNotesLayer.remove();
-  };
 
   setMap = (leafletMap: any) => {
     this.leafletMap = leafletMap;

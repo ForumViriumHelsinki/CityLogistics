@@ -190,7 +190,8 @@ GATEWAY_API = {
 }
 SMS_PLATFORM = 'None'
 
-FRONTEND_ROOT = "https://app.olmap.org/"
+FRONTEND_HOST = "app.citylogistiikka.fi"
+FRONTEND_ROOT = f"https://{FRONTEND_HOST}/"
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 

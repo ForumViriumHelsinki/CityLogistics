@@ -16,3 +16,4 @@ __pycache__
 /tunnel_db.sh
 /update_qa_server.sh
 /update_prod_server.sh
+/postgres_data/

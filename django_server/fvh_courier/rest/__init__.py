@@ -4,9 +4,7 @@ from rest_framework import routers
 from .views import (
     AvailablePackagesViewSet, MyPackagesViewSet, MyDeliveredPackagesViewSet,
     PendingOutgoingPackagesViewSet, DeliveredOutgoingPackagesViewSet,
-    PackagesByUUIDReadOnlyViewSet, MyLocationView, NearbyAddressesView,
-    OSMImageNotesViewSet, OSMImageNoteCommentsViewSet, OSMImageNotesGeoJSON,
-    OSMEntrancesViewSet, OSMFeaturesViewSet)
+    PackagesByUUIDReadOnlyViewSet, MyLocationView)
 
 
 router = routers.DefaultRouter()
@@ -16,13 +14,7 @@ router.register('my_delivered_packages', MyDeliveredPackagesViewSet, 'my_deliver
 router.register('pending_outgoing_packages', PendingOutgoingPackagesViewSet, 'pending_outgoing_package')
 router.register('delivered_outgoing_packages', DeliveredOutgoingPackagesViewSet, 'delivered_outgoing_package')
 router.register('packages', PackagesByUUIDReadOnlyViewSet, 'uuid_package')
-router.register('osm_image_notes', OSMImageNotesViewSet)
-router.register('osm_image_note_comments', OSMImageNoteCommentsViewSet)
-router.register('osm_entrances', OSMEntrancesViewSet, basename='osmentrance')
-router.register('osm_features', OSMFeaturesViewSet)
 
 urlpatterns = [
     path('my_location/', MyLocationView.as_view(), name='user_location'),
-    path('addresses_at/<str:lon>/<str:lat>/', NearbyAddressesView.as_view(), name='nearby_addresses'),
-    path('osm_image_notes.geojson', OSMImageNotesGeoJSON.as_view(), name='osm_image_notes_geojson')
 ] + router.urls

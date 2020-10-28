@@ -2,25 +2,18 @@
 FROM python:3.7
 
 # set work directory
-WORKDIR /usr/src/app
+WORKDIR /django_server
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # copy Pipfile
-COPY Pipfile /usr/src/app/
-COPY Pipfile.lock /usr/src/app/
+COPY Pipfile /django_server/
+COPY Pipfile.lock /django_server/
 
 # install dependencies
+RUN apt-get update; apt-get install -y netcat
 RUN pip install pipenv
 RUN pipenv install --system --deploy
-
-# copy entrypoint.sh
-COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
-
-# copy project
-COPY . /usr/src/app/
-
-# run entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+ENTRYPOINT ["/django_server/entrypoint.sh"]

@@ -18,7 +18,7 @@ type FVHTabsUIProps = {
     fullWidth?: boolean
   }[],
   onLogout: () => any,
-  onLogin: () => any
+  onLogin?: () => any
 }
 
 type State = { showLogout: boolean, menuOpen: boolean };
@@ -96,6 +96,6 @@ export default class FVHTabsUI extends React.Component<FVHTabsUIProps, State> {
 
   onNavIconClick = () => {
     if (this.props.user) this.setState({showLogout: true});
-    else this.props.onLogin()
+    else this.props.onLogin && this.props.onLogin()
   }
 }
