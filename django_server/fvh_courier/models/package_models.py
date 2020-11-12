@@ -71,8 +71,10 @@ class Package(TimestampedModel):
 
     def save(self, **kwargs):
         if not self.name:
+            if not self.id:
+                super().save(**kwargs)
             self.name = f'Package {self.id} to {self.recipient}'
-        return super().save(**kwargs)
+        return super().save()
 
     @classmethod
     def sent_by_user(cls, user):

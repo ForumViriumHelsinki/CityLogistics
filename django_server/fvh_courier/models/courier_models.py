@@ -8,7 +8,7 @@ from .base import TimestampedModel, Address
 
 class CourierCompany(TimestampedModel):
     name = models.CharField(max_length=64)
-    coordinator = models.ForeignKey('Courier', related_name='is_coordinator_for', null=True, on_delete=models.SET_NULL)
+    coordinator = models.ForeignKey('Courier', related_name='is_coordinator_for', null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name or super().__str__()
@@ -55,11 +55,12 @@ class UserRole(TimestampedModel):
 
 class Courier(UserRole):
     company = models.ForeignKey(CourierCompany, related_name='couriers', on_delete=models.CASCADE)
-    lat = models.DecimalField(max_digits=11, decimal_places=8, null=True)
-    lon = models.DecimalField(max_digits=11, decimal_places=8, null=True)
+    lat = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    lon = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
 
 
 class Sender(UserRole):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.PROTECT)
-    courier_company = models.ForeignKey(CourierCompany, null=True, on_delete=models.SET_NULL, related_name='senders')
+    courier_company = models.ForeignKey(CourierCompany, null=True, blank=True,
+                                        on_delete=models.SET_NULL, related_name='senders')
