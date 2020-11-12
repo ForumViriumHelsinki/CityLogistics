@@ -23,7 +23,7 @@ serializers.ModelSerializer.serializer_field_mapping[DecimalField] = RoundingDec
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = fvh_courier.models.base.Address
-        exclude = ['id', 'created_at', 'modified_at']
+        exclude = ['id', 'created_at', 'modified_at', 'official']
 
 
 class UserRoleSerializer(serializers.ModelSerializer):
