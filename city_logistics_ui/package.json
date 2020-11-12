@@ -30,7 +30,8 @@
     "react-scripts": "^3.4.0",
     "reactstrap": "^8.4.0",
     "sass": "^1.23.7",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "react-autosuggest-geocoder": "https://github.com/gatesolve/react-autosuggest-geocoder#fix/modify-for-gatesolve"
   },
   "resolutions": {
     "@turf/difference": "6.0.1"
@@ -46,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-jsonschema-form": "^1.7.4"
   }
 }

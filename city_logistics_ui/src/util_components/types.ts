@@ -4,6 +4,7 @@ export type Location = {
 }
 
 export type Address = Location & {
+    street: string,
     street_address: string,
     postal_code: string,
     city: string,

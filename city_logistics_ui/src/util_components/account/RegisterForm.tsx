@@ -44,6 +44,7 @@ export default class RegisterForm extends React.Component<RegisterFormProps, Reg
 
   render() {
     const {formData, errors} = this.state;
+    // @ts-ignore
     return <Form schema={this.schema} uiSchema={uiSchema} onSubmit={this.onSubmit}
                  formData={formData} showErrorList={false} extraErrors={this.extraErrors()}>
       {errors && errors.non_field_errors &&

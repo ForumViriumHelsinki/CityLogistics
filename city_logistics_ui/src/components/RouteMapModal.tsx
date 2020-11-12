@@ -8,6 +8,7 @@ import GlyphIcon from "util_components/GlyphIcon";
 import Geolocator from "util_components/Geolocator";
 import Map from "util_components/Map";
 import {Location, Address} from 'util_components/types';
+import GatesolveModal from "components/GatesolveModal";
 
 export type BaseMapProps = {
   origin: Address,
@@ -22,8 +23,13 @@ export type MapProps = BaseMapProps & {
 
 type State = {
   currentPosition: null | Location,
-  imageNotesLayer?: any
+  imageNotesLayer?: any,
+  gatesolveTo?: Address
 };
+
+function googleNavUrl(destination: Location) {
+  return `https://www.google.com/maps/dir/?api=1&travelmode=bicycling&destination=${destination.lat},${destination.lon}`;
+}
 
 export default class RouteMapModal extends React.Component<MapProps, State> {
   state: State = {
@@ -47,14 +53,28 @@ export default class RouteMapModal extends React.Component<MapProps, State> {
   }
 
   render() {
+    const {gatesolveTo} = this.state;
     const {origin, destination, onClose, currentPositionIndex=0} = this.props;
     const currentPosition = this.getCurrentPosition();
 
-    return <Modal title={`${origin.street_address} to ${destination.street_address}`} onClose={onClose}>
-      <div style={{height: '70vh', position: 'relative'}}>
+    if (gatesolveTo) return <GatesolveModal destination={gatesolveTo} onClose={onClose}/>
+
+    else return <Modal title={`${origin.street_address} to ${destination.street_address}`} onClose={onClose}>
+      <div style={{height: 'calc(100vh - 200px)', position: 'relative'}}>
         <Map extraLayers={this.getMapLayers()}
              latLng={currentPosition ? [currentPosition.lat, currentPosition.lon] : undefined}
              onMapInitialized={this.setMap}/>
+      </div>
+      <div className="d-none">
+        {([[origin, 'origin'], [destination, 'destination']] as [Address, string][])
+         .map(([location, name]) =>
+          <div id={`${name}-popup`} key={name}>
+            <h6>{location.street_address}</h6>
+            <div className="font-weight-bold text-center">Navigate using:</div>
+            <a className="btn btn-block btn-sm" href={googleNavUrl(location)} target="google">Google</a>
+            <a className="btn btn-block btn-sm" onClick={() => this.setState({gatesolveTo: location})}>Gatesolve</a>
+          </div>
+        )}
       </div>
       {(currentPositionIndex > -1) && !this.props.currentPosition &&
         <Geolocator onLocation={([lon, lat]) => this.setState({currentPosition: {lat, lon}})}/>
@@ -110,6 +130,8 @@ export default class RouteMapModal extends React.Component<MapProps, State> {
 
   refreshMap() {
     if (!this.userMovedMap) this.leafletMap.fitBounds(this.bounds());
+    this.markers.origin.bindPopup(document.getElementById('origin-popup'));
+    this.markers.destination.bindPopup(document.getElementById('destination-popup'));
   }
 
   getCurrentPosition() {
