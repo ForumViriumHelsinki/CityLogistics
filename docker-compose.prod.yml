@@ -9,7 +9,7 @@ services:
     env_file:
       - ./.env.prod
     volumes:
-      - ./django_server:/app
+      - ./django_server:/django_server
   db:
     image: postgres:12.1
     volumes:
@@ -21,4 +21,4 @@ services:
     build: ./city_logistics_ui
     command: sh -c "yarn; yarn build"
     volumes:
-      - ./city_logistics_ui:/app
+      - ./city_logistics_ui:/city_logistics_ui
