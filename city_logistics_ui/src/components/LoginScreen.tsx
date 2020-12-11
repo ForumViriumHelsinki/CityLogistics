@@ -27,7 +27,7 @@ export default class LoginScreen extends React.Component<LoginScreenProps, Login
       <div className="container">
         <div className="text-center">
           <img className="w-50" src="images/FORUM_VIRIUM_logo_orange.png" alt="logo"/>
-          <h3>Open Logistics Map</h3>
+          <h3>City Logistics</h3>
           <p className="lead">
             {mode == 'login' ?
               <>
