@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal, {ModalBody} from "util_components/bootstrap/Modal";
-import settings from "settings.json";
+import {settings} from "utils";
 import {LocationTuple} from './types';
 
 export default class Geolocator extends React.Component<{onLocation: (location: LocationTuple) => any}> {

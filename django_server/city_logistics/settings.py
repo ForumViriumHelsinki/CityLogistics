@@ -29,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY", "(*z-ann&51^6l361#ymu0y9tbdk=_g*=3cy8)p%vcizdc0%_qv")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = ['citylogistiikka.fvh.io', '127.0.0.1', 'localhost']
 
@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+if os.environ.get('ELASTIC_SERVICE', False):
+    INSTALLED_APPS.append('elasticapm.contrib.django')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -184,11 +187,11 @@ TWILIO = {
     'SENDER_NR': 'configure in local settings'
 }
 GATEWAY_API = {
-    'KEY': 'configure in local settings',
-    'SECRET': 'configure in local settings',
-    'TOKEN': 'configure in local settings'
+    'KEY': os.environ.get('GATEWAY_KEY', 'configure in local settings'),
+    'SECRET': os.environ.get('GATEWAY_SECRET', 'configure in local settings'),
+    'TOKEN': os.environ.get('GATEWAY_TOKEN', 'configure in local settings')
 }
-SMS_PLATFORM = 'None'
+SMS_PLATFORM = 'GatewayAPI' if os.environ.get('GATEWAY_KEY', False) else 'None'
 
 FRONTEND_HOST = "app.citylogistiikka.fi"
 FRONTEND_ROOT = f"https://{FRONTEND_HOST}/"
@@ -196,26 +199,26 @@ FRONTEND_ROOT = f"https://{FRONTEND_HOST}/"
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ADMINS = [['FVH Django admins', 'django-admins@forumvirium.fi']]
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_PASSWORD = ''
-EMAIL_HOST_USER = ''
-EMAIL_PORT = 25
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', 25)
 
-if not DEBUG:
-    sentry_sdk.init(
-        dsn="https://2e6f09304d6844a48667c0384d6561af@sentry.fvh.io/6",
-        integrations=[DjangoIntegration()],
-
-        # If you wish to associate users to errors (assuming you are using
-        # django.contrib.auth) you may enable sending PII data.
-        send_default_pii=True
-    )
+SENTRY_DSN = os.environ.get('SENTRY_DSN', None)
+if SENTRY_DSN:
+    sentry_sdk.init(dsn=SENTRY_DSN, integrations=[DjangoIntegration()], send_default_pii=True)
 
 DATETIME_FORMAT = "Y-m-d H:i:s"
 
 SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+ELASTIC_APM = {
+   'SERVICE_NAME': os.environ.get('ELASTIC_SERVICE', 'citylogistiikka_prod'),
+   'SECRET_TOKEN': os.environ.get('ELASTIC_TOKEN', ''),
+   'SERVER_URL': os.environ.get('ELASTIC_URL', ''),
+}
 
 try:
     from .local_settings import *  # noqa

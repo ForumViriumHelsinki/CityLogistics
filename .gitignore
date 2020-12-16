@@ -17,3 +17,5 @@ __pycache__
 /update_qa_server.sh
 /update_prod_server.sh
 /postgres_data/
+.env.prod
+docker-compose.yml

@@ -1,4 +1,4 @@
-import settings from './settings';
+import {settings} from './utils';
 
 export function login(token) {
   localStorage.setItem('olmap-token', token);

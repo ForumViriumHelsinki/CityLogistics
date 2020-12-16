@@ -1,5 +1,14 @@
 {
-  "serverRoot": "http://localhost:8000",
+  "siteSpecific": {
+    "localhost": {
+      "serverRoot": "http://localhost:8000",
+      "useMockGeolocation": [24.944368, 60.161687]
+    },
+    "app.citylogistiikka.fi": {
+      "serverRoot": "https://citylogistiikka.fvh.io",
+      "sentryDsn": "https://135596075dd14421add31247a17721fd@sentry.fvh.io/8"
+    }
+  },
   "MapBox": {
     "accessToken": "pk.eyJ1Ijoiam9oYW4tZnZoIiwiYSI6ImNrNDJtOGh5cDAxczIzb3FpdHg1Z3c5MGwifQ.bp9ubCm67HLIorEUb21K3A"
   },
@@ -8,6 +17,5 @@
     "destination": "check",
     "currentPosition": "directions_bike"
   },
-  "useMockGeolocation": [24.944368, 60.161687],
   "defaultLocation": [60.17012, 24.94290]
 }

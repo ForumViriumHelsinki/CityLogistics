@@ -1,4 +1,5 @@
 import moment from "moment";
+import original_settings from './settings';
 
 export function formatTimestamp(timestamp) {
   return moment(timestamp).format("D.M.YYYY H:mm");
@@ -15,3 +16,5 @@ export function formatTime(timestamp) {
 export function capitalize(str) {
   return str && (str[0].toUpperCase() + str.slice(1));
 }
+
+export const settings = {...original_settings, ...original_settings.siteSpecific[window.location.hostname]};

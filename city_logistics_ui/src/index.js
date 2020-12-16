@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as Sentry from '@sentry/browser';
 import App from './CityLogisticsUI';
 import * as serviceWorker from './serviceWorker';
 import styles from './index.scss'; // eslint-disable-line
+import {settings} from "utils";
+
+if (settings.sentryDsn)
+  Sentry.init({dsn: settings.sentryDsn});
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
