@@ -4,7 +4,7 @@ services:
   web:
     restart: always
     build: ./django_server
-    command: gunicorn city_logistics.wsgi:application --bind 0.0.0.0:8002 --access-logfile log/access.log --error-logfile log/error.log --workers 4
+    command: gunicorn city_logistics.wsgi:application --bind 0.0.0.0:8002 --access-logfile log/access.log --error-logfile log/error.log --capture-output --workers 4
     network_mode: host
     env_file:
       - ./.env.prod
