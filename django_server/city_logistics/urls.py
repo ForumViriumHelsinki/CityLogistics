@@ -29,6 +29,10 @@ schema_view = get_schema_view(
     version="1.0.0", public=True)
 
 
+def error_view(request):
+    raise Exception('This is a test error to verify error reporting.')
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('rest/', include(rest.urlpatterns)),
@@ -39,7 +43,8 @@ urlpatterns = [
     path('swagger-ui/', TemplateView.as_view(
         template_name='swagger-ui.html',
         extra_context={'schema_url': 'openapi-schema'}
-    ), name='swagger-ui')
+    ), name='swagger-ui'),
+    path('error_test/', error_view, name='error-view'),
 ]
 
 if settings.DEBUG:
