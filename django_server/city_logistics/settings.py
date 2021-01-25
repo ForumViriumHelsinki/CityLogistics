@@ -203,6 +203,8 @@ EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_PORT = os.environ.get('EMAIL_PORT', 25)
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', False)
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', 'webmaster@localhost')
 
 SENTRY_DSN = os.environ.get('SENTRY_DSN', None)
 if SENTRY_DSN:
