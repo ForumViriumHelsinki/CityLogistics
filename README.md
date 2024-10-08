@@ -1,6 +1,18 @@
 # CityLogistics
 Proof of concept app for last mile city logistics
 
+# Repository Archived
+
+**Note: This repository has been archived.**
+
+This project has concluded, and the code is no longer actively maintained. 
+However, you are free to use the code as per the license terms. 
+If you wish to continue development, feel free to fork this repository.
+
+Thank you for your interest in this project.
+
+-- project team 2024-10-08
+
 ## Installing a development environment
 
 ### Using Docker
